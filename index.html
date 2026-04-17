@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,9 +28,8 @@
 
     main {
       min-height: auto;
-      display: grid;
-      place-items: center;
-      text-align: center;
+      display: flex;
+      justify-content: center;
       padding: 3rem 2rem 2rem;
     }
 
@@ -58,8 +58,121 @@
       margin: 2rem auto 0;
       border-radius: 8px;
     }
+
+    .abstract {
+      max-width: 980px;
+      width: 100%;
+      text-align: justify;
+      background: #fff;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .abstract h2 {
+      margin: 0 0 0.85rem;
+      font-size: 1.35rem;
+      color: #1f1f1f;
+    }
+
+    .abstract p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .content-stack {
+      max-width: 980px;
+      width: 100%;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .dataset {
+      text-align: justify;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .dataset h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.35rem;
+      color: #1f1f1f;
+    }
+
+    .dataset p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .dataset p+p {
+      margin-top: 0.75rem;
+    }
+
+    .dataset a {
+      color: #005eb8;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .dataset a:hover,
+    .dataset a:focus {
+      text-decoration: underline;
+    }
+
+    .citation {
+      text-align: justify;
+      width: 100%;
+      background: #fff;
+      border: 1px solid #e4e4e4;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .citation h2 {
+      margin: 0 0 0.65rem;
+      font-size: 1.35rem;
+      color: #1f1f1f;
+    }
+
+    .citation p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .citation p+p {
+      margin-top: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 1.5rem 1rem 1.75rem;
+      }
+
+      .content-stack {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .abstract,
+      .dataset,
+      .citation {
+        width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+      }
+    }
   </style>
 </head>
+
 <body>
   <header>
     <h1>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</h1>
@@ -68,7 +181,48 @@
     <img src="data/system-overview.webp" alt="ODGS-SLAM System Overview" class="system-overview" />
   </header>
   <main>
-    <p>Paper, source code and dataset are coming soon.</p>
+    <div class="content-stack">
+      <section class="abstract" aria-labelledby="abstract-title">
+        <h2 id="abstract-title">Abstract</h2>
+        <p>This work presents ODGS-SLAM, an omnidirectional simultaneous localization and mapping (SLAM) system
+          utilizing
+          3D Gaussian Splatting (3DGS) as the unified representation for tracking and mapping. Thus, it reconstructs
+          scene
+          geometry from panoramic image sequences (RGB or RGBD) via splats while also estimating the camera poses. Such
+          a
+          framework is important to understand the full surrounding, e.g., for augmented reality applications or
+          autonomous systems. We extended existing 3DGS-SLAM methods to handle omnidirectional input by including
+          closed-form gradients for mapping and camera pose estimation, utilizing an equirectangular projection model.
+          To
+          reduce memory footprint, a key frame removal procedure based on graph analysis is proposed, enabling the
+          application to handle larger input sizes. For evaluation, we provide a dataset of controlled real-world and
+          synthetic test scenes (indoor and outdoor), employing a custom developed virtual camera lens. An extensive
+          evaluation shows that, for camera tracking, the proposed method achieves statistically significant lower ATE
+          RMSE scores compared to a recent omnidirectional SLAM system, as well as other 3DGS-SLAM frameworks, while
+          reaching a similar mapping performance.</p>
+      </section>
+
+      <section class="dataset" aria-labelledby="dataset-title">
+        <h2 id="dataset-title">Dataset</h2>
+        <p>
+          The <a href="https://researchdata.uibk.ac.at/records/z6f6r-sjc65" target="_blank"
+            rel="noopener noreferrer"><b>ODGS-SLAM dataset</b></a> is a collection of controlled real-world and
+          synthetic test sequences for omnidirectional, multi-camera, fisheye, and perspective camera setups, together
+          with ground-truth trajectories. It serves as a benchmark for comparing different visual SLAM systems using
+          different input image modalities.
+        </p>
+      </section>
+
+      <section class="citation" aria-labelledby="citation-title">
+        <h2 id="citation-title">Citation and Attribution</h2>
+        <p>
+          <b>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</b> has been accepted at CVPR 2026 and will be
+          published in the conference proceedings. If you use this work or dataset, please cite the paper. Once the
+          official reference is available, the citation details will be provided here.
+        </p>
+      </section>
+    </div>
   </main>
 </body>
+
 </html>
