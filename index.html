@@ -4,7 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ODGS-SLAM</title>
+  <title>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</title>
+  <meta name="description" content="ODGS-SLAM is an omnidirectional SLAM system utilizing 3D Gaussian Splatting for tracking and mapping from RGB and RGBD input. Accepted at CVPR 2026." />
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM" />
+  <meta property="og:description" content="An omnidirectional SLAM system using 3D Gaussian Splatting for tracking and mapping from RGB and RGBD input. CVPR 2026." />
+  <meta property="og:url"         content="https://odgs-slam.github.io/" />
+  <meta property="og:image"       content="https://odgs-slam.github.io/data/system-overview.webp" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/fontawesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/solid.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/regular.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/brands.min.css" />
   <style>
     body {
       margin: 0;
@@ -14,105 +24,253 @@
       color: #222;
     }
 
-    h1 {
-      margin: 0;
-      padding: 2.25rem 1rem 0;
-      text-align: center;
-      font-size: clamp(1.6rem, 4vw, 2.5rem);
-      line-height: 1.25;
-    }
-
+    /* ── Header shell ── */
     header {
       text-align: center;
     }
 
-    main {
-      min-height: auto;
+    .header-top {
+      display: grid;
+      grid-template-columns: 220px 1fr 220px;
+      align-items: start;
+      gap: 1rem;
+      padding: 1.25rem 1rem 0;
+      max-width: 1654px;
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .header-logo {
+      width: 220px;
+      height: 66px;
       display: flex;
-      justify-content: center;
-      padding: 3rem 2rem 2rem;
+      align-items: center;
+      justify-content: flex-start;
     }
 
-    p {
+    .header-logo-right {
+      justify-content: flex-end;
+    }
+
+    .header-logo-right a {
+      justify-content: flex-end;
+    }
+
+    .header-logo a {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .header-logo img {
+      height: 66px;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .header-content {
+      text-align: center;
+      min-width: 0;
+    }
+
+    /* ── Title & venue ── */
+    h1 {
       margin: 0;
-      font-size: 1.3rem;
-      color: #555;
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      line-height: 1.25;
     }
 
-    .authors {
+    .venue {
       margin: 0.5rem 0 0;
-      font-size: 1.5rem;
-      color: #444;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #666;
+    }
+
+    /* ── Authors & affiliation ── */
+    .authors {
+      margin: 0.6rem 0 0;
+      font-size: 1.35rem;
+      color: #333;
     }
 
     .affiliation {
       margin: 0.25rem 0 0;
-      font-size: 1.3rem;
-      color: #555;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* ── Paper links ── */
+    .paper-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.6rem;
+      margin: 1rem 0 0;
+    }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      background: #fff;
+      border: 1.5px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #222;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
+    }
+
+    .link-btn:hover,
+    .link-btn:focus {
+      border-color: #005eb8;
+      background: #005eb8;
+      color: #fff;
+    }
+
+    .link-btn i {
+      font-size: 1.05rem;
+    }
+
+    /* ── System overview image ── */
+    .system-overview-wrapper {
+      overflow-x: auto;
+      margin: 2rem 0 0;
     }
 
     .system-overview {
       max-width: 1654px;
       width: 100%;
-      height: auto;
-      margin: 2rem auto 0;
-      border-radius: 8px;
+      min-width: 1024px;
+      display: block;
+      margin: 0 auto;
     }
 
-    .abstract {
-      max-width: 980px;
-      width: 100%;
-      text-align: justify;
-      background: #fff;
-      border: 1px solid #e4e4e4;
-      border-radius: 10px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    .figure-hint {
+      display: none;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #999;
+      margin: 0.4rem 0 0;
     }
 
-    .abstract h2 {
-      margin: 0 0 0.85rem;
-      font-size: 1.35rem;
-      color: #1f1f1f;
+    @media (hover: hover) and (pointer: fine) and (max-width: 1024px) {
+      .figure-hint { display: block; }
+      .system-overview-wrapper { padding-bottom: 10px; }
     }
 
-    .abstract p {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: #333;
+    @media (hover: none), (pointer: coarse) {
+      .system-overview-wrapper {
+        overflow-x: scroll;
+        padding-bottom: 10px;
+      }
+
+      .system-overview-wrapper::-webkit-scrollbar {
+        height: 6px;
+      }
+
+      .system-overview-wrapper::-webkit-scrollbar-track {
+        background: #e8e8e8;
+        border-radius: 3px;
+      }
+
+      .system-overview-wrapper::-webkit-scrollbar-thumb {
+        background: #aaa;
+        border-radius: 3px;
+      }
+    }
+
+    /* ── Main content ── */
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 3rem 2rem 2rem;
     }
 
     .content-stack {
       max-width: 980px;
       width: 100%;
+      min-width: 0;
       display: grid;
       gap: 1rem;
     }
 
-    .dataset {
-      text-align: justify;
-      width: 100%;
-      background: #fff;
+    .abstract,
+    .dataset,
+    .citation,
+    .video-embed {
       border: 1px solid #e4e4e4;
       border-radius: 10px;
-      padding: 1.25rem 1.5rem;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
-    .dataset h2 {
-      margin: 0 0 0.65rem;
+    .abstract,
+    .dataset,
+    .citation {
+      text-align: justify;
+      width: 100%;
+      min-width: 0;
+      background: #fff;
+      padding: 1.25rem 1.5rem;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+
+    .abstract h2,
+    .dataset h2,
+    .citation h2 {
+      margin: 0 0 0.75rem;
       font-size: 1.35rem;
       color: #1f1f1f;
     }
 
-    .dataset p {
+    .abstract p,
+    .dataset p,
+    .citation p {
       font-size: 1.05rem;
       line-height: 1.7;
       color: #333;
     }
 
-    .dataset p+p {
+    .dataset p+p,
+    .citation p+p {
       margin-top: 0.75rem;
+    }
+
+    .video-embed {
+      width: 100%;
+      background: #000;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+    }
+
+    .video-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .bibtex {
+      margin: 0.75rem 0 0;
+      padding: 1rem 1.1rem;
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #333;
+      white-space: pre;
+      overflow-x: auto;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 0;
     }
 
     .dataset a {
@@ -126,48 +284,81 @@
       text-decoration: underline;
     }
 
-    .citation {
-      text-align: justify;
-      width: 100%;
-      background: #fff;
-      border: 1px solid #e4e4e4;
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .citation h2 {
-      margin: 0 0 0.65rem;
-      font-size: 1.35rem;
-      color: #1f1f1f;
-    }
-
-    .citation p {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: #333;
-    }
-
-    .citation p+p {
-      margin-top: 0.75rem;
-    }
-
-    @media (max-width: 768px) {
+    /* ── Responsive: tablet ── */
+    @media (max-width: 1024px) {
       main {
-        padding: 1.5rem 1rem 1.75rem;
+        padding: 2rem 1.5rem 1.5rem;
       }
 
-      .content-stack {
-        width: 100%;
-        max-width: 100%;
+      .authors {
+        font-size: 1.15rem;
+      }
+
+      .abstract p,
+      .dataset p,
+      .citation p {
+        font-size: 1rem;
+      }
+    }
+
+    /* ── Responsive: mobile ── */
+    @media (max-width: 768px) {
+      .header-top {
+        grid-template-columns: 140px 140px;
+        grid-template-rows: auto auto;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 1rem 1rem 0;
+      }
+
+      .header-logo {
+        grid-row: 1;
+        justify-content: center;
+        width: 140px;
+        height: 42px;
+      }
+
+      .header-content {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .header-logo img {
+        height: 42px;
+      }
+
+      .authors {
+        font-size: 1rem;
+      }
+
+      .affiliation {
+        font-size: 0.9rem;
       }
 
       .abstract,
       .dataset,
       .citation {
-        width: 100%;
-        margin: 0 auto;
-        box-sizing: border-box;
+        padding: 1rem 1.1rem;
+      }
+
+      .abstract p,
+      .dataset p,
+      .citation p {
+        font-size: 0.95rem;
+      }
+
+      .bibtex {
+        font-size: 0.75rem;
+        padding: 0.75rem 0.85rem;
+      }
+
+      .link-btn {
+        font-size: 0.88rem;
+        padding: 0.4rem 0.75rem;
+      }
+
+      main {
+        padding: 1.25rem 0.75rem 1.5rem;
       }
     }
   </style>
@@ -175,38 +366,80 @@
 
 <body>
   <header>
-    <h1>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</h1>
-    <p class="authors">Stefan Spiss, Joey Hieronimy, Marcel Ritter, Matthias Harders</p>
-    <p class="affiliation">University of Innsbruck</p>
-    <img src="data/system-overview.webp" alt="ODGS-SLAM System Overview" class="system-overview" />
+    <div class="header-top">
+      <div class="header-logo">
+        <a href="https://www.uibk.ac.at/" target="_blank" rel="noopener noreferrer">
+          <img src="data/uibk-logo.png" alt="University of Innsbruck" />
+        </a>
+      </div>
+
+      <div class="header-content">
+        <h1>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</h1>
+        <p class="venue">CVPR 2026</p>
+        <p class="authors">Stefan Spiss, Joey Hieronimy, Marcel Ritter, Matthias Harders</p>
+        <p class="affiliation">Interactive Graphics and Simulation Group, Department of Computer Science, University of Innsbruck</p>
+        <div class="paper-links">
+          <a class="link-btn" href="https://openaccess.thecvf.com/content/CVPR2026/papers/Spiss_ODGS-SLAM_Omnidirectional_Gaussian_Splatting_SLAM_CVPR_2026_paper.pdf" target="_blank" rel="noopener noreferrer">
+            <i class="fa-regular fa-file-pdf"></i> Paper
+          </a>
+          <a class="link-btn" href="data/ODGS-SLAM_CVPR26_supplement.pdf" target="_blank" rel="noopener noreferrer">
+            <i class="fa-regular fa-file-pdf"></i> Supplement
+          </a>
+          <a class="link-btn" href="https://github.com/odgs-slam/odgs-slam" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-github"></i> Code
+          </a>
+          <a class="link-btn" href="https://researchdata.uibk.ac.at/records/z6f6r-sjc65" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-database"></i> Dataset
+          </a>
+          <a class="link-btn" href="https://www.youtube.com/watch?v=S77FhiKHoFo" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-youtube"></i> Video
+          </a>
+          <a class="link-btn" href="https://openaccess.thecvf.com/content/CVPR2026/html/Spiss_ODGS-SLAM_Omnidirectional_Gaussian_Splatting_SLAM_CVPR_2026_paper.html" target="_blank" rel="noopener noreferrer">
+            <i class="fa-regular fa-file-lines"></i> CVF
+          </a>
+        </div>
+      </div>
+
+      <div class="header-logo header-logo-right">
+        <a href="https://igs.uibk.ac.at/" target="_blank" rel="noopener noreferrer">
+          <img src="data/igs-logo.png" alt="Interactive Graphics and Simulation Group" />
+        </a>
+      </div>
+    </div>
+
+    <div class="system-overview-wrapper">
+      <img src="data/system-overview.webp" alt="ODGS-SLAM System Overview" class="system-overview" />
+    </div>
+    <p class="figure-hint">Shift + scroll to pan the figure horizontally</p>
   </header>
+
   <main>
     <div class="content-stack">
       <section class="abstract" aria-labelledby="abstract-title">
         <h2 id="abstract-title">Abstract</h2>
         <p>This work presents ODGS-SLAM, an omnidirectional simultaneous localization and mapping (SLAM) system
-          utilizing
-          3D Gaussian Splatting (3DGS) as the unified representation for tracking and mapping. Thus, it reconstructs
-          scene
-          geometry from panoramic image sequences (RGB or RGBD) via splats while also estimating the camera poses. Such
-          a
-          framework is important to understand the full surrounding, e.g., for augmented reality applications or
-          autonomous systems. We extended existing 3DGS-SLAM methods to handle omnidirectional input by including
-          closed-form gradients for mapping and camera pose estimation, utilizing an equirectangular projection model.
-          To
-          reduce memory footprint, a key frame removal procedure based on graph analysis is proposed, enabling the
-          application to handle larger input sizes. For evaluation, we provide a dataset of controlled real-world and
+          utilizing 3D Gaussian Splatting (3DGS) as the unified representation for tracking and mapping. Thus, it
+          reconstructs scene geometry from panoramic image sequences (RGB or RGBD) via splats while also estimating the
+          camera poses. Such a framework is important to understand the full surrounding, e.g., for augmented reality
+          applications or autonomous systems. We extended existing 3DGS-SLAM methods to handle omnidirectional input by
+          including closed-form gradients for mapping and camera pose estimation, utilizing an equirectangular projection
+          model. To reduce memory footprint, a key frame removal procedure based on graph analysis is proposed, enabling
+          the application to handle larger input sizes. For evaluation, we provide a dataset of controlled real-world and
           synthetic test scenes (indoor and outdoor), employing a custom developed virtual camera lens. An extensive
           evaluation shows that, for camera tracking, the proposed method achieves statistically significant lower ATE
           RMSE scores compared to a recent omnidirectional SLAM system, as well as other 3DGS-SLAM frameworks, while
           reaching a similar mapping performance.</p>
       </section>
 
+      <div class="video-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/S77FhiKHoFo?cc_load_policy=0&rel=0" title="ODGS-SLAM Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+
       <section class="dataset" aria-labelledby="dataset-title">
         <h2 id="dataset-title">Dataset</h2>
         <p>
           The <a href="https://researchdata.uibk.ac.at/records/z6f6r-sjc65" target="_blank"
-            rel="noopener noreferrer"><b>ODGS-SLAM dataset</b></a> is a collection of controlled real-world and
+            rel="noopener noreferrer"><strong>ODGS-SLAM dataset</strong></a> is a collection of controlled real-world and
           synthetic test sequences for omnidirectional, multi-camera, fisheye, and perspective camera setups, together
           with ground-truth trajectories. It serves as a benchmark for comparing different visual SLAM systems using
           different input image modalities.
@@ -215,14 +448,28 @@
 
       <section class="citation" aria-labelledby="citation-title">
         <h2 id="citation-title">Citation and Attribution</h2>
-        <p>
-          <b>ODGS-SLAM: Omnidirectional Gaussian Splatting SLAM</b> has been accepted at CVPR 2026 and will be
-          published in the conference proceedings. If you use this work or dataset, please cite the paper. Once the
-          official reference is available, the citation details will be provided here.
-        </p>
+        <p>If you use this work or the dataset, please cite:</p>
+        <pre class="bibtex">@InProceedings{Spiss_2026_CVPR,
+    author    = {Spiss, Stefan and Hieronimy, Joey and Ritter, Marcel and Harders, Matthias},
+    title     = {{ODGS-SLAM}: {O}mnidirectional {G}aussian {S}platting {SLAM}},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2026},
+    pages     = {26114-26123}
+}</pre>
       </section>
     </div>
   </main>
+
+  <script>
+    const wrapper = document.querySelector('.system-overview-wrapper');
+    wrapper.addEventListener('wheel', e => {
+      if (e.shiftKey && wrapper.scrollWidth > wrapper.clientWidth) {
+        e.preventDefault();
+        wrapper.scrollLeft += e.deltaY + e.deltaX;
+      }
+    }, { passive: false });
+  </script>
 </body>
 
 </html>
